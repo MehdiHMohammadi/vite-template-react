@@ -1,4 +1,4 @@
-const stories = [
+const initialStories = [
   {
     id: 0,
     title: "React Js",
@@ -80,4 +80,4 @@ const stories = [
     points: 16,
   },
 ];
-export default stories;
+export default initialStories;

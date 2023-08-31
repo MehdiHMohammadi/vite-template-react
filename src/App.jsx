@@ -1,21 +1,22 @@
 import "./App.css";
 import List from "./components/list";
 import InputWithLabel from "./components/InputWithLabel";
-import stories from "./data/stories";
+import initialStories from "./data/stories";
 import useStorageState from "./hooks/useStorageState";
+import { useState } from "react";
 
 const App = () => {
   console.log("APP");
 
-  // const [searchText, setSearchText] = useState(
-  //   localStorage.getItem("search") || ""
-  // );
-
+  const [stories, setStories] = useState(initialStories);
   const [searchText, setSearchText] = useStorageState("search", "");
 
   const handleSearch = (event) => {
-    // console.log(e.value);
     setSearchText(event.value);
+  };
+
+  const handleRemoveStory = (id) => {
+    setStories((prev) => prev.filter(({ id: storyId }) => storyId !== id));
   };
 
   const searchedStoreis = stories.filter((story) =>
@@ -33,10 +34,8 @@ const App = () => {
           type="search"
           isFocused="false"
         />
-        {/* <List props={list} /> */}
-        {/* <List list={stories} /> */}
-        <List list={searchedStoreis} />
-        {/* <h1>{searchText}</h1> */}
+
+        <List list={searchedStoreis} onRemoveItem={handleRemoveStory} />
       </div>
     </>
   );
