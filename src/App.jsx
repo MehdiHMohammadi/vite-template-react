@@ -30,6 +30,8 @@ const App = () => {
           label="Search"
           value={searchText}
           onInputeChange={handleSearch}
+          type="search"
+          isFocused="false"
         />
         {/* <List props={list} /> */}
         {/* <List list={stories} /> */}

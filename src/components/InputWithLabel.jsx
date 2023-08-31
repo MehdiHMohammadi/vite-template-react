@@ -1,6 +1,14 @@
 import PropTypes from "prop-types";
+import { useRef, useEffect } from "react";
 
-const InputWithLabel = ({ id, label, value, onInputeChange }) => {
+const InputWithLabel = ({
+  id,
+  label,
+  value,
+  onInputeChange,
+  type = "text",
+  isFocused,
+}) => {
   console.log("Search");
 
   InputWithLabel.propTypes = {
@@ -8,6 +16,8 @@ const InputWithLabel = ({ id, label, value, onInputeChange }) => {
     value: PropTypes.string,
     id: PropTypes.string,
     label: PropTypes.string,
+    type: PropTypes.string,
+    isFocused: PropTypes.bool,
   };
   //   const [searchText, setSearchText] = useState("");
 
@@ -17,6 +27,14 @@ const InputWithLabel = ({ id, label, value, onInputeChange }) => {
     onInputeChange(input);
     // setSearchText(input.value);
   };
+
+  const inputRef = useRef();
+
+  useEffect(() => {
+    if (isFocused && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [isFocused]);
   return (
     <>
       <form className="w-96">
@@ -46,11 +64,13 @@ const InputWithLabel = ({ id, label, value, onInputeChange }) => {
           </div>
           <input
             defaultValue={value}
-            type="search"
+            type={type}
             id={id}
             className="block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Search ..."
             required
+            ref={inputRef}
+            // autoFocus={isFocused}
           />
           <button
             onClick={handleChange}
