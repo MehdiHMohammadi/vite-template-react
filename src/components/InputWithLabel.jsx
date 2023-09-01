@@ -17,7 +17,7 @@ const InputWithLabel = ({
     id: PropTypes.string,
     label: PropTypes.string,
     type: PropTypes.string,
-    isFocused: PropTypes.bool,
+    isFocused: PropTypes.string,
   };
   //   const [searchText, setSearchText] = useState("");
 

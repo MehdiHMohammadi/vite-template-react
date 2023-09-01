@@ -2,6 +2,7 @@ import PropTypes from "prop-types";
 
 const ListItem = ({ id, url, title, author, points, onRemoveItem }) => {
   ListItem.propTypes = {
+    id: PropTypes.number,
     url: PropTypes.string,
     title: PropTypes.string,
     author: PropTypes.string,
