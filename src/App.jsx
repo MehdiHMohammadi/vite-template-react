@@ -10,17 +10,25 @@ const App = () => {
 
   const [stories, setStories] = useState([]);
   const [searchText, setSearchText] = useStorageState("search", "");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const getAsyncStories = () =>
-    new Promise((resolve) => {
-      setTimeout(() => resolve({ data: { stories: initialStories } }), 2000);
+    new Promise((resolve, reject) => {
+      setTimeout(() => {
+        // resolve({ data: { stories: initialStories } });
+        reject();
+      }, 2000);
     });
 
   useEffect(() => {
-    getAsyncStories().then((result) => {
-      setStories(result.data.stories);
-      console.log(stories);
-    });
+    setIsLoading(true);
+    getAsyncStories()
+      .then((result) => {
+        setStories(result.data.stories);
+        setIsLoading(false);
+      })
+      .catch(() => setIsError(true));
   }, []);
 
   const handleSearch = (event) => {
@@ -37,6 +45,10 @@ const App = () => {
     story.title.toLowerCase().includes(searchText.toLowerCase())
   );
 
+  // if (isLoading) {
+  //   return <h1>loading...</h1>;
+  // }
+
   return (
     <>
       <div className="h-screen  flex flex-col justify-center items-center gap-6 bg-slate-700">
@@ -48,8 +60,14 @@ const App = () => {
           type="search"
           isFocused="true"
         />
-
-        <List list={searchedStoreis} onRemoveItem={handleRemoveStory} />
+        {isError && <h1>Error in Loading Data !!!!?</h1>}
+        {isLoading ? (
+          <h1 className="text-left mb-2 text-lg font-semibold text-gray-900 dark:text-white">
+            loading...
+          </h1>
+        ) : (
+          <List list={searchedStoreis} onRemoveItem={handleRemoveStory} />
+        )}
       </div>
     </>
   );
